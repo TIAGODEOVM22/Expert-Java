@@ -3,6 +3,7 @@ package br.com.tiago.user_service_api.mapper;
 import br.com.tiago.model.response.UserResponse;
 import br.com.tiago.user_service_api.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
@@ -15,6 +16,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 )
 public interface UserMapper {
 
+    /*@Mapping(target = "nome", source = "name")
+    @Mapping(target = "profile", source = "profiles")*/
     UserResponse fromEntity(final User entity);
     /*Ao realizar o mapeamento de "Response DTO" para entity temos que verificar
      * se todos os atributos estão com o mesmo nome para não dar erro.
