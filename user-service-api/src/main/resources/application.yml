@@ -7,8 +7,8 @@ spring:
       auto-index-creation: true #cria index dos users
       #porta padrão do mongo 27017
 
-springdoc:
-  openapi:
+  springdoc:
+    openapi:
     title: 'User Service API'
-description: 'Formação Java Expert com o professor Valdir Cesar'
-  version: '1.0.0'
+    description: 'Formacao Java Expert com o professor Valdir Cesar'
+    version: '1.0.0'

@@ -17,8 +17,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 )
 public interface UserMapper {
 
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "profiles", source = "profiles")
+  /*  @Mapping(target = "name", source = "name")
+    @Mapping(target = "profiles", source = "profiles")*/
     UserResponse fromEntity(final User entity);
     /*Ao realizar o mapeamento de "Response DTO" para entity temos que verificar
      * se todos os atributos estão com o mesmo nome para não dar erro.
