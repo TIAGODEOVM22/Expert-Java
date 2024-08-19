@@ -1,10 +1,11 @@
 package br.com.tiago.user_service_api.controller.impl;
 
-import br.com.tiago.model.response.UserResponse;
+
 import br.com.tiago.user_service_api.controller.UserController;
 import br.com.tiago.user_service_api.entity.User;
 import br.com.tiago.user_service_api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import models.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

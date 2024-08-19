@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/hd-comons-lib/pom.xml" />
+        <option value="$PROJECT_DIR$/hd-commons-lib/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,10 +1,12 @@
 package br.com.tiago.user_service_api.service;
 
-import br.com.tiago.model.exceptions.ResourceNotFoundExceptions;
-import br.com.tiago.model.response.UserResponse;
+
+
 import br.com.tiago.user_service_api.mapper.UserMapper;
 import br.com.tiago.user_service_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import models.exceptions.ResourceNotFoundException;
+import models.response.UserResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +34,7 @@ public class UserService {
     /*Retorna um UserResponse, se não encontrar retorna msg personalizada*/
     public UserResponse findById(final String id){
         return userMapper.fromEntity(userRepository.findById(id).orElseThrow(()->
-                new ResourceNotFoundExceptions(
+                new ResourceNotFoundException(
                         "object not found id: " + id + "type: " + UserResponse.class.getSimpleName()
                 )
         ));

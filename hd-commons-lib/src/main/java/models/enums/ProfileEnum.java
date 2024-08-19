@@ -1,7 +1,10 @@
 package models.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum ProfileEnum {
 
     ROLE_ADMIN("ROLE_ADMIN"),
@@ -13,10 +16,6 @@ public enum ProfileEnum {
 
     ProfileEnum(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static ProfileEnum toEnum(final String description) {
