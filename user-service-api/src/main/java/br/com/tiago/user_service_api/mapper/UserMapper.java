@@ -4,7 +4,6 @@ package br.com.tiago.user_service_api.mapper;
 import br.com.tiago.user_service_api.entity.User;
 import models.response.UserResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;

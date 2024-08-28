@@ -1,19 +1,20 @@
 package br.com.tiago.user_service_api.service;
 
-
-
 import br.com.tiago.user_service_api.mapper.UserMapper;
 import br.com.tiago.user_service_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import models.exceptions.ResourceNotFoundException;
 import models.response.UserResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final UserMapper userMapper;
 
     /*retorna Id sem tratamento de exceção
@@ -39,5 +40,6 @@ public class UserService {
                 )
         ));
     }
+
 
 }

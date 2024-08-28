@@ -2,8 +2,8 @@ package br.com.tiago.user_service_api.controller.impl;
 
 
 import br.com.tiago.user_service_api.controller.UserController;
-import br.com.tiago.user_service_api.entity.User;
 import br.com.tiago.user_service_api.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import models.response.UserResponse;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ public class UserControllerImpl implements UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "Find user by id")
     @Override
     public ResponseEntity<UserResponse> findById(String id) {
         return ResponseEntity.ok().body(userService.findById(id));
