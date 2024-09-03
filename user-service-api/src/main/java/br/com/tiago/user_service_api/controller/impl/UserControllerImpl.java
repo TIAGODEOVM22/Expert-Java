@@ -5,7 +5,9 @@ import br.com.tiago.user_service_api.controller.UserController;
 import br.com.tiago.user_service_api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import models.requests.CreateUserRequest;
 import models.response.UserResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +19,13 @@ public class UserControllerImpl implements UserController {
 
     @Operation(summary = "Find user by id")
     @Override
-    public ResponseEntity<UserResponse> findById(String id) {
+    public ResponseEntity<UserResponse> findById(final String id) {
         return ResponseEntity.ok().body(userService.findById(id));
+    }
+
+    @Override
+    public ResponseEntity<Void> save(final CreateUserRequest createUserRequest) {
+        userService.save(createUserRequest);
+        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 }
