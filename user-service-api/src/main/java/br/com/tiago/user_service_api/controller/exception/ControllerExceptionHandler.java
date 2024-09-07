@@ -3,6 +3,7 @@ package br.com.tiago.user_service_api.controller.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import models.exceptions.ResourceNotFoundException;
 import models.exceptions.ValidationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-//MethodArgumentNotValidException
+
+    /*Tratamento personalizado para Recurso não encontrado*/
     @ExceptionHandler(ResourceNotFoundException.class)
     ResponseEntity<models.exceptions.StandardError> handleNotFoundException(
             final ResourceNotFoundException ex, final HttpServletRequest request)
@@ -34,7 +36,7 @@ public class ControllerExceptionHandler {
         );
 
     }
-
+/*Tratamento personalizado para save user*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ValidationException> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException ex, final HttpServletRequest request)
@@ -54,6 +56,22 @@ public class ControllerExceptionHandler {
             }
 
             return ResponseEntity.badRequest().body(error);
+
+    }
+/*Tratamento personalizado para validação de email*/
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ResponseEntity<models.exceptions.StandardError> handleDataIntegrityViolationException(
+            final DataIntegrityViolationException ex, final HttpServletRequest request)
+    {
+        return ResponseEntity.badRequest().body(
+                models.exceptions.StandardError.builder()
+                        .timeStamp(now())
+                        .status(BAD_REQUEST.value())
+                        .error(BAD_REQUEST.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .build()
+        );
 
     }
 
