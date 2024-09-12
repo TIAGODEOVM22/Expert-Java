@@ -9,10 +9,12 @@ import models.response.UserResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
 
     private final UserRepository userRepository;
 
@@ -44,16 +46,22 @@ public class UserService {
 
 
     public void save(CreateUserRequest createUserRequest) {
-        verifyIfEmailAlreadyExists(createUserRequest.email(), null);
+        verifyIfEmailAlreadyExists(createUserRequest.email(), null);//null porque ainda não tenho o método update
         userRepository.save(userMapper.fromRequest(createUserRequest));
     }
 
     private void verifyIfEmailAlreadyExists(final String email, final String id){
         userRepository.findByEmail(email)
-                .filter(user -> user.getId().equals(id))
+                .filter(user -> !user.getId().equals(id))
                 .ifPresent(user -> {
                     throw new DataIntegrityViolationException("Email ["+ email +"] already exists!");
                 });
 
+    }
+
+    public List<UserResponse> findAll() {
+        return userRepository.findAll()
+                .stream().map(userMapper::fromEntity)
+                .toList();
     }
 }

@@ -2,6 +2,7 @@ package br.com.tiago.user_service_api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +14,8 @@ import models.requests.CreateUserRequest;
 import models.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -67,5 +70,30 @@ public interface UserController {
     ResponseEntity<Void> save (
            @Valid @RequestBody final CreateUserRequest createUserRequest
             );
+
+
+    @Operation(summary = "Find All Users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Find All Users",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
+
+           /* @ApiResponse(
+                    responseCode = "404", description = "Bad Request",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                            StandardError.class)
+                    )),*/
+            @ApiResponse(
+                    responseCode = "500", description = "internal server error",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                            StandardError.class)))
+
+    }
+    )
+    @GetMapping
+    ResponseEntity<List<UserResponse>> findAll();
+
+
+
 
     }
