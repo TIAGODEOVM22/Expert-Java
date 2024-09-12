@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
+import static models.exceptions.ValidationException.*;
 import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
@@ -45,7 +46,7 @@ public class ControllerExceptionHandler {
                     .error("Validation Exception")
                     .message("Exception validation in attributes")
                     .path(request.getRequestURI())
-                    .errors(new ArrayList<>())
+                    .error(String.valueOf(new ArrayList<>()))
                     .build();
 
             for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){

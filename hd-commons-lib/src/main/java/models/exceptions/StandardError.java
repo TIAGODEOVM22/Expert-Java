@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 
 @Getter
-@SuperBuilder
+@SuperBuilder /*a classe que esta extendendo -> ValidationException <- vai ter esses atributos tambem */
 public class StandardError {
     private LocalDateTime timeStamp;
     private Integer status;

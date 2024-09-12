@@ -2,13 +2,10 @@ package models.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
 public class ValidationException extends StandardError{
 
