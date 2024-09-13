@@ -22,7 +22,8 @@ public class ValidationException extends StandardError{
     }
 
     public void addError(final String fieldName, final String message){
-        this.errors.add(new FieldError(fieldName, message));
+       // this.errors.add(new FieldError(fieldName, message));
+       // this.addError(fieldName, message);
 
 
     }

@@ -23,12 +23,6 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping("/api/users")
 public interface UserController {
 
-    /*RETORNA CLASSE MODEL
-     estou recebendo uma variável de path, então vou nomeá-la como "id"
-    @GetMapping("/{id}")
-    ResponseEntity<User> findById(@PathVariable(name = "id") final String id);*/
-
-    /*documentation*/
     @Operation(summary = "Find user by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "user found"),
@@ -43,7 +37,7 @@ public interface UserController {
                     content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
                             StandardError.class)))
     })
-    /*RETORNA CLASSE RESPONSE*/
+
     @GetMapping("/{id}")
      ResponseEntity<UserResponse> findById(
             @Parameter(description = "User id", example = "66b54fd1305cb55ded2dc323")
@@ -64,8 +58,8 @@ public interface UserController {
                             StandardError.class)))
 
     }
-
     )
+
     @PostMapping
     ResponseEntity<Void> save (
            @Valid @RequestBody final CreateUserRequest createUserRequest
@@ -74,22 +68,18 @@ public interface UserController {
 
     @Operation(summary = "Find All Users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Find All Users",
-                    content = @Content(mediaType = APPLICATION_JSON_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
+            @ApiResponse(responseCode = "200", description = "users found",
+                    content = @Content(
+                    mediaType = APPLICATION_JSON_VALUE,
+                   array = @ArraySchema(schema = @Schema(implementation = UserResponse.class))
+    )),
 
-           /* @ApiResponse(
-                    responseCode = "404", description = "Bad Request",
-                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
-                            StandardError.class)
-                    )),*/
             @ApiResponse(
                     responseCode = "500", description = "internal server error",
-                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
-                            StandardError.class)))
-
-    }
-    )
+                    content = @Content(
+                            mediaType = APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = StandardError.class)))
+    })
     @GetMapping
     ResponseEntity<List<UserResponse>> findAll();
 

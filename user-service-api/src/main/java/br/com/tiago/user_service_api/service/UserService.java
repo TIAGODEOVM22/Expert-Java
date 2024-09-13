@@ -54,14 +54,14 @@ public class UserService {
         userRepository.findByEmail(email)
                 .filter(user -> !user.getId().equals(id))
                 .ifPresent(user -> {
-                    throw new DataIntegrityViolationException("Email ["+ email +"] already exists!");
+                    throw new DataIntegrityViolationException("Email [" + email + "] already exists");
                 });
 
     }
 
     public List<UserResponse> findAll() {
         return userRepository.findAll()
-                .stream().map(userMapper::fromEntity)
+                .stream().map(userMapper::fromEntity)/*method reference*/
                 .toList();
     }
 }

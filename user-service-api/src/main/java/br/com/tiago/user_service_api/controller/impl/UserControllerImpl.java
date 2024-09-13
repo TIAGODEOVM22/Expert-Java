@@ -17,10 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor /*toda vez que eu usar injeção de dep.*/
 public class UserControllerImpl implements UserController {
 
-
     private final UserService userService;
 
-    @Operation(summary = "Find user by id")
     @Override
     public ResponseEntity<UserResponse> findById(final String id) {
         return ResponseEntity.ok().body(userService.findById(id));

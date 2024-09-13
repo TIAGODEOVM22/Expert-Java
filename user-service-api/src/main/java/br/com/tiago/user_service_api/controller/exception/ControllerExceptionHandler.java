@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
-import static models.exceptions.ValidationException.*;
 import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
