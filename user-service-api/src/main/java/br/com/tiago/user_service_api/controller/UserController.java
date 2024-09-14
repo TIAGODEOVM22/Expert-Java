@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import models.exceptions.StandardError;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateCreateUserRequest;
 import models.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +66,6 @@ public interface UserController {
            @Valid @RequestBody final CreateUserRequest createUserRequest
             );
 
-
     @Operation(summary = "Find All Users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "users found",
@@ -83,7 +83,33 @@ public interface UserController {
     @GetMapping
     ResponseEntity<List<UserResponse>> findAll();
 
+    @Operation(summary = "Update User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "user updated",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                    UserResponse.class) /*conteudo da minha resposta é UserResponse*/
+            )),
+            @ApiResponse(
+                    responseCode = "400", description = "Bad request",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                            StandardError.class)
+                    )),
 
+            @ApiResponse(
+                    responseCode = "404", description = "User Not Found",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                            StandardError.class)
+                    )),
+            @ApiResponse(
+                    responseCode = "500", description = "internal server error",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
+                            StandardError.class)))
+    })
+    @PutMapping("/{id}")
+    ResponseEntity<UserResponse>update(
+            @Parameter(description = "User id", example = "66b54fd1305cb55ded2dc323")
+            @PathVariable(name = "id") final String id,
+            @Valid @RequestBody final UpdateCreateUserRequest updateCreateUserRequest);
 
 
     }

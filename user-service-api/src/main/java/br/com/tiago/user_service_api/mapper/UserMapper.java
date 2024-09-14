@@ -3,9 +3,11 @@ package br.com.tiago.user_service_api.mapper;
 
 import br.com.tiago.user_service_api.entity.User;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateCreateUserRequest;
 import models.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
@@ -18,12 +20,16 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 )
 public interface UserMapper {
 
-  /*  @Mapping(target = "name", source = "name")
-    @Mapping(target = "profiles", source = "profiles")*/
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "profiles", source = "profiles")
     UserResponse fromEntity(final User entity);
 
     @Mapping(target = "id", ignore = true) /*o atributo ID será ignorado e não será mapeado*/
     User fromRequest(CreateUserRequest createUserRequest);
+
+  @Mapping(target = "id", ignore = true) /*o atributo ID será ignorado e não será mapeado*/
+    User update(UpdateCreateUserRequest updateCreateUserRequest, @MappingTarget User entity);
+    /*MappingTarget alvo a ser mapeado*/
 
 
 

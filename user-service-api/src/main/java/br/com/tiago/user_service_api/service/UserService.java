@@ -1,16 +1,18 @@
 package br.com.tiago.user_service_api.service;
 
+import br.com.tiago.user_service_api.entity.User;
 import br.com.tiago.user_service_api.mapper.UserMapper;
 import br.com.tiago.user_service_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import models.exceptions.ResourceNotFoundException;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateCreateUserRequest;
 import models.response.UserResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final UserMapper userMapper;
+    private  final UserMapper userMapper;
 
     /*retorna Id sem tratamento de exceção
     retorna UserModel. O correto é retornar um Response "DTO"
@@ -35,15 +37,24 @@ public class UserService {
         return userMapper.fromEntity(userRepository.findById(id).orElse(null));
     }*/
 
-    /*Retorna um UserResponse, se não encontrar retorna msg personalizada*/
-    public UserResponse findById(final String id){
-        return userMapper.fromEntity(userRepository.findById(id).orElseThrow(()->
+    private User find(final String id){
+        return userRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(
                         "object not found id: " + id + "type: " + UserResponse.class.getSimpleName()
-                )
-        ));
+                ));
     }
 
+    /*Retorna um UserResponse, se não encontrar retorna msg personalizada*/
+    public UserResponse findById(final String id){
+        return userMapper.fromEntity(find(id));
+    }
+
+    public UserResponse update(final String id, final UpdateCreateUserRequest updateCreateUserRequest) {
+        User entity = find(id);
+        verifyIfEmailAlreadyExists(updateCreateUserRequest.email(), id);
+        return userMapper.fromEntity(userRepository.save(userMapper.update(updateCreateUserRequest, entity)));
+
+    }
 
     public void save(CreateUserRequest createUserRequest) {
         verifyIfEmailAlreadyExists(createUserRequest.email(), null);//null porque ainda não tenho o método update
@@ -64,4 +75,7 @@ public class UserService {
                 .stream().map(userMapper::fromEntity)/*method reference*/
                 .toList();
     }
+
+
+
 }

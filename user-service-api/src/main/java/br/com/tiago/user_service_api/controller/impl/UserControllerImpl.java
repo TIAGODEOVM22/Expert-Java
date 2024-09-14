@@ -3,9 +3,9 @@ package br.com.tiago.user_service_api.controller.impl;
 
 import br.com.tiago.user_service_api.controller.UserController;
 import br.com.tiago.user_service_api.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateCreateUserRequest;
 import models.response.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +33,10 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.ok().body(userService.findAll());
+    }
+
+    @Override
+    public ResponseEntity<UserResponse> update(final String id, final UpdateCreateUserRequest updateCreateUserRequest) {
+        return ResponseEntity.ok().body(userService.update(id, updateCreateUserRequest));
     }
 }
