@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import models.exceptions.StandardError;
 import models.requests.CreateUserRequest;
-import models.requests.UpdateCreateUserRequest;
+import models.requests.UpdateUserRequest;
 import models.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public interface UserController {
 
     @GetMapping("/{id}")
      ResponseEntity<UserResponse> findById(
-            @Parameter(description = "User id", example = "66b54fd1305cb55ded2dc323")
+            @Parameter(description = "User id", example = "66e63c735d3c470536597346")
             @PathVariable(name = "id") final String id);
 
     @Operation(summary = "Save new User")
@@ -107,9 +107,9 @@ public interface UserController {
     })
     @PutMapping("/{id}")
     ResponseEntity<UserResponse>update(
-            @Parameter(description = "User id", example = "66b54fd1305cb55ded2dc323")
+            @Parameter(description = "User id", example = "66e63c735d3c470536597346")
             @PathVariable(name = "id") final String id,
-            @Valid @RequestBody final UpdateCreateUserRequest updateCreateUserRequest);
+            @Valid @RequestBody final UpdateUserRequest updateUserRequest);
 
 
     }

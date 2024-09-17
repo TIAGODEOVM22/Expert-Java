@@ -1,9 +1,8 @@
 package br.com.tiago.user_service_api.mapper;
 
-
 import br.com.tiago.user_service_api.entity.User;
 import models.requests.CreateUserRequest;
-import models.requests.UpdateCreateUserRequest;
+import models.requests.UpdateUserRequest;
 import models.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,8 +27,10 @@ public interface UserMapper {
     User fromRequest(CreateUserRequest createUserRequest);
 
   @Mapping(target = "id", ignore = true) /*o atributo ID será ignorado e não será mapeado*/
-    User update(UpdateCreateUserRequest updateCreateUserRequest, @MappingTarget User entity);
-    /*MappingTarget alvo a ser mapeado*/
+    User update(UpdateUserRequest updateUserRequest, @MappingTarget User entity); /*MappingTarget alvo a ser mapeado*/
+
+
+
 
 
 

@@ -9,7 +9,7 @@ import models.enums.ProfileEnum;
 import java.util.Set;
 
 @With
-public record UpdateCreateUserRequest(
+public record UpdateUserRequest(
 
         @Schema(description = "User Name", example = "Tiago Oliveira")
         @Size(min = 3, max = 50, message = "Name must contain between 3 and 50 characters")

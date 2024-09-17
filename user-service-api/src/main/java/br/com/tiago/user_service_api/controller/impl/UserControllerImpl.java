@@ -5,7 +5,7 @@ import br.com.tiago.user_service_api.controller.UserController;
 import br.com.tiago.user_service_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import models.requests.CreateUserRequest;
-import models.requests.UpdateCreateUserRequest;
+import models.requests.UpdateUserRequest;
 import models.response.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ import java.util.List;
 public class UserControllerImpl implements UserController {
 
     private final UserService userService;
+
 
     @Override
     public ResponseEntity<UserResponse> findById(final String id) {
@@ -36,7 +37,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<UserResponse> update(final String id, final UpdateCreateUserRequest updateCreateUserRequest) {
-        return ResponseEntity.ok().body(userService.update(id, updateCreateUserRequest));
+    public ResponseEntity<UserResponse> update(final String id, final UpdateUserRequest updateUserRequest) {
+        return ResponseEntity.ok().body(userService.update(id, updateUserRequest));
     }
 }
