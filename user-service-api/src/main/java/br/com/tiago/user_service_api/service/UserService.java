@@ -8,7 +8,6 @@ import models.exceptions.ResourceNotFoundException;
 import models.requests.CreateUserRequest;
 import models.requests.UpdateUserRequest;
 import models.response.UserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
