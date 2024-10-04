@@ -56,6 +56,9 @@ dependencies {
 
     // Biblioteca para geração de dados aleatórios para testes
     implementation 'uk.co.jemos.podam:podam:7.2.6.RELEASE'
+
+    //implementation 'io.micrometer:micrometer-observation:1.10.8' // Atualize para 1.10.8 ou superior
+
 }
 
 dependencyManagement {

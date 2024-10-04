@@ -29,7 +29,7 @@ public class UserService {
     private User find(final String id){
         return userRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(
-                        "object not found id: " + id + "type: " + UserResponse.class.getSimpleName()
+                        "Object not found Id:" + id + " Type: " + UserResponse.class.getSimpleName()
                 ));
     }
 
