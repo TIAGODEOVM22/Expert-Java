@@ -29,7 +29,7 @@ public class UserService {
     private User find(final String id){
         return userRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(
-                        "Object not found Id:" + id + " Type: " + UserResponse.class.getSimpleName()
+                        "Object not found Id: "+ id +" Type: " + UserResponse.class.getSimpleName()
                 ));
     }
 
@@ -41,9 +41,9 @@ public class UserService {
     public UserResponse update(final String id, final UpdateUserRequest updateUserRequest) {
         User entity = find(id);
         verifyIfEmailAlreadyExists(updateUserRequest.email(), id);
-        return userMapper.fromEntity(userRepository.save(
-                userMapper.update(
-                        updateUserRequest, entity)
+        return userMapper.fromEntity(
+                userRepository.save(
+                userMapper.update(updateUserRequest, entity)
                         .withPassword(updateUserRequest.password() != null ? encoder.encode(
                                 updateUserRequest.password()) : entity.getPassword())));
     }

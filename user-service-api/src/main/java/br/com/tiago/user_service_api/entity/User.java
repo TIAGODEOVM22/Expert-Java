@@ -1,8 +1,6 @@
 package br.com.tiago.user_service_api.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.With;
 import models.enums.ProfileEnum;
 import org.springframework.data.annotation.Id;
@@ -25,4 +23,11 @@ public class User {
     private String password;
     private Set<ProfileEnum>profiles;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
