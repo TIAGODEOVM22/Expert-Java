@@ -1,0 +1,5 @@
+Spring:
+  data:
+    mongodb:
+      uri: 'mongodb+srv://help-desk-user:davieisaac@clusterhelpdesk.lxyvszq.mongodb.net/dbhelpdesk?retryWrites=true&w=majority&appName=ClusterHelpDesk'
+      auto-index-creation: true
