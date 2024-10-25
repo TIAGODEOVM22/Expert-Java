@@ -1,5 +1,13 @@
-Spring:
+spring:
+  application:
+    name: 'user-service-api' #nome no meu component
   data:
     mongodb:
       uri: 'mongodb+srv://help-desk-user:davieisaac@clusterhelpdesk.lxyvszq.mongodb.net/dbhelpdesk?retryWrites=true&w=majority&appName=ClusterHelpDesk'
-      auto-index-creation: true
+      auto-index-creation: true #cria index dos users
+      #porta padrão do mongo 27017
+springdoc:
+  openapi:
+  title: 'User-Service-API'
+  description: 'Java Expert com o professor Valdir Cesar'
+  version: '1.0.0'
