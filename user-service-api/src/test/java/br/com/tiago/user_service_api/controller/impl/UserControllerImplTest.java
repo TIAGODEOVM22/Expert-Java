@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,5 +52,23 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.path").value("/api/users/123"))
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.timeStamp").isNotEmpty());
+    }
+
+    @Test
+    void testFindAllWithSuccess() throws Exception {
+        final var entity1= CreatorUtils.generateMock(User.class);
+        final var entity2= CreatorUtils.generateMock(User.class);
+
+        repository.saveAll(List.of(entity1, entity2));
+
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())/*Verifica se o JSON retornado na resposta é um array, usando a expressão $ (que representa a raiz do JSON) para validar a estrutura da resposta.*/
+                .andExpect(jsonPath("$[0]").isNotEmpty())/*Verifica se o primeiro elemento do array JSON não está vazio, garantindo que o array contenha pelo menos um elemento com dados.*/
+                .andExpect(jsonPath("$[1]").isNotEmpty())/*Verifica se o segundo elemento do array JSON também não está vazio, confirmando que ambos os objetos entity1 e entity2 foram retornados.*/
+                .andExpect(jsonPath("$[0].profiles").isArray());/*Verifica se a propriedade profiles do primeiro objeto é um array, o que pode indicar que cada User possui um atributo profiles que deve ser uma lista.*/
+
+        repository.deleteAll(List.of(entity1, entity2));
+
     }
 }
