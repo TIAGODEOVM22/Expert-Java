@@ -95,6 +95,32 @@ class UserControllerImplTest {
 
     }
 
+
+    @Test
+    void testSaveUserWithConflict() throws Exception{
+        final var emailValid = "emailvalido123@gmail.com";
+        final var entity = CreatorUtils.generateMock(User.class);
+        entity.setEmail(emailValid);
+
+        repository.save(entity);
+
+        final var request = CreatorUtils.generateMock(CreateUserRequest.class).withEmail(emailValid);
+
+        mockMvc.perform(
+                 post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(request))
+        ).andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Email [" + emailValid + "] already exists"))
+                .andExpect(jsonPath("$.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
+                .andExpect(jsonPath("$.path").value("/api/users"))
+                .andExpect(jsonPath("$.status").value(HttpStatus.CONFLICT.value()))
+                .andExpect(jsonPath("$.timeStamp").isNotEmpty());
+
+                repository.deleteById(entity.getId());
+
+    }
+
     private String toJson(final Object obj) throws Exception {
        try {
            return new ObjectMapper().writeValueAsString(obj);
