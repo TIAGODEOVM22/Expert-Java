@@ -3,17 +3,22 @@ package br.com.tiago.user_service_api.controller.impl;
 import br.com.tiago.user_service_api.creator.CreatorUtils;
 import br.com.tiago.user_service_api.entity.User;
 import br.com.tiago.user_service_api.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import models.requests.CreateUserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static com.mongodb.assertions.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +32,9 @@ class UserControllerImplTest {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void testFindByIdWithSuccess() throws Exception {
@@ -62,7 +70,7 @@ class UserControllerImplTest {
         repository.saveAll(List.of(entity1, entity2));
 
         mockMvc.perform(get("/api/users"))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk())/*verifica se o status HTTP retornado é 200 OK*/
                 .andExpect(jsonPath("$").isArray())/*Verifica se o JSON retornado na resposta é um array, usando a expressão $ (que representa a raiz do JSON) para validar a estrutura da resposta.*/
                 .andExpect(jsonPath("$[0]").isNotEmpty())/*Verifica se o primeiro elemento do array JSON não está vazio, garantindo que o array contenha pelo menos um elemento com dados.*/
                 .andExpect(jsonPath("$[1]").isNotEmpty())/*Verifica se o segundo elemento do array JSON também não está vazio, confirmando que ambos os objetos entity1 e entity2 foram retornados.*/
@@ -71,4 +79,28 @@ class UserControllerImplTest {
         repository.deleteAll(List.of(entity1, entity2));
 
     }
+
+    @Test
+    void testSaveUserWithSuccess() throws Exception{
+        final var emailValid = "emailvalido123@gmail.com";
+        final var request = CreatorUtils.generateMock(CreateUserRequest.class).withEmail(emailValid);
+
+            mockMvc.perform(
+                    post("/api/users")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(toJson(request))
+            ).andExpect(status().isCreated());
+
+        repository.deleteByEmail(emailValid);
+
+    }
+
+    private String toJson(final Object obj) throws Exception {
+       try {
+           return new ObjectMapper().writeValueAsString(obj);
+       }catch (final Exception e){
+           throw new Exception("Erro to convert object to json", e);
+       }
+    }
+
 }
