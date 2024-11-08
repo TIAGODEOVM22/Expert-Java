@@ -50,7 +50,7 @@ public class UserService {
 
 
     public void save(CreateUserRequest createUserRequest) {
-        verifyIfEmailAlreadyExists(createUserRequest.email(), null);//null porque ainda não tenho o método update
+        verifyIfEmailAlreadyExists(createUserRequest.email(), null);
         userRepository.save(userMapper.fromRequest(createUserRequest.withPassword(
                 encoder.encode(createUserRequest.password()))));
     }

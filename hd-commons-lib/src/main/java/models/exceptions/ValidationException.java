@@ -1,33 +1,39 @@
 package models.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @SuperBuilder
-public class ValidationException extends StandardError{
+@NoArgsConstructor
+@AllArgsConstructor
+public class ValidationException extends StandardError {
 
     @Getter
-    private List<FieldError> errors;
+    @JsonProperty
+    private List<FieldError> errors; // Inicializa a lista
+
+    public List<StandardError> addError( final String fieldName,final String message) {
+        var validationException = new ValidationException();
+        validationException.errors.add(new FieldError(fieldName, message));
+        return List.of();
+    }
 
     @Getter
-    @AllArgsConstructor
-    private static class FieldError{
+    public static class FieldError {
 
-        private String fieldName;
-        private String message;
+        private final String fieldName;
+        private final String message;
 
-    }
-
-    public void addError(final String fieldName, final String message){
-       // this.errors.add(new FieldError(fieldName, message));
-       // this.addError(fieldName, message);
+        public FieldError(String fieldName, String message) {
+            this.fieldName = fieldName;
+            this.message = message;
+        }
 
 
     }
-
-
-
 }

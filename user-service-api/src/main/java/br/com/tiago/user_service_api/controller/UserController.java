@@ -38,7 +38,6 @@ public interface UserController {
                     content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation =
                             StandardError.class)))
     })
-
     @GetMapping("/{id}")
      ResponseEntity<UserResponse> findById(
             @Parameter(description = "User id", example = "66e63c735d3c470536597346")

@@ -19,6 +19,7 @@ import java.util.List;
 import static com.mongodb.assertions.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -118,15 +119,37 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.timeStamp").isNotEmpty());
 
                 repository.deleteById(entity.getId());
-
     }
+
 
     private String toJson(final Object obj) throws Exception {
        try {
-           return new ObjectMapper().writeValueAsString(obj);
+           return objectMapper.writeValueAsString(obj);
        }catch (final Exception e){
-           throw new Exception("Erro to convert object to json", e);
+           throw new Exception("Error to convert object to json", e);
        }
+    }
+
+    @Test
+    void testSaveUserWithNameEmptyThenThrowBadRequest() throws Exception {
+        final var emailValid = "emailvalido123@gmail.com";
+        final var request = CreatorUtils.generateMock(CreateUserRequest.class)
+                .withName("")
+                .withEmail(emailValid);
+
+        mockMvc.perform(
+                        post("/api/users")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(toJson(request))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Exception validation in attributes"))
+                .andExpect(jsonPath("$.error").value("Validation Exception"))
+                .andExpect(jsonPath("$.path").value("/api/users"))
+                .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.timeStamp").isNotEmpty());
+                //.andExpect(jsonPath("$.errors[?(@.fieldName == 'name' && @.message == 'Name must contain between 3 and 50 characters')]").exists())
+               // .andExpect(jsonPath("$.errors[?(@.fieldName == 'name' && @.message == 'Name cannot be empty')]").exists());
     }
 
 }

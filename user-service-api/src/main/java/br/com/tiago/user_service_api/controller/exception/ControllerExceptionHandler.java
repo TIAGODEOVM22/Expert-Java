@@ -2,7 +2,9 @@ package br.com.tiago.user_service_api.controller.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import models.exceptions.ResourceNotFoundException;
+import models.exceptions.StandardError;
 import models.exceptions.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,13 +20,14 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+
     /*Tratamento personalizado para Recurso não encontrado*/
     @ExceptionHandler(ResourceNotFoundException.class)
     ResponseEntity<models.exceptions.StandardError> handleNotFoundException(
             final ResourceNotFoundException ex, final HttpServletRequest request)
     {
         return ResponseEntity.status(NOT_FOUND).body(
-                models.exceptions.StandardError.builder()
+                StandardError.builder()
                         .timeStamp(now())
                         .status(NOT_FOUND.value())
                         .error(NOT_FOUND.getReasonPhrase())
@@ -32,33 +35,31 @@ public class ControllerExceptionHandler {
                         .path(request.getRequestURI())
                         .build()
         );
-
     }
+
 /*Tratamento personalizado para save user*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ValidationException> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException ex, final HttpServletRequest request)
     {
-            var error = ValidationException.builder()
+            var error1 = ValidationException.builder()
                     .timeStamp(now())
                     .status(BAD_REQUEST.value())
                     .error("Validation Exception")
                     .message("Exception validation in attributes")
                     .path(request.getRequestURI())
-                    .error(String.valueOf(new ArrayList<>()))
+                    .errors(new ArrayList<>())
                     .build();
+            /*for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
+                error1
 
-            for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
-                error.addError(fieldError.getField(), fieldError.getDefaultMessage());
-
-            }
-
-            return ResponseEntity.badRequest().body(error);
-
+            }*/
+            return ResponseEntity.badRequest().body(error1);
     }
+
 /*Tratamento personalizado para validação de email*/
     @ExceptionHandler(DataIntegrityViolationException.class)
-    ResponseEntity<models.exceptions.StandardError> handleDataIntegrityViolationException(
+    ResponseEntity<StandardError> handleDataIntegrityViolationException(
             final DataIntegrityViolationException ex, final HttpServletRequest request)
     {
         return ResponseEntity.status(CONFLICT).body(
@@ -70,8 +71,5 @@ public class ControllerExceptionHandler {
                         .path(request.getRequestURI())
                         .build()
         );
-
     }
-
-
 }
