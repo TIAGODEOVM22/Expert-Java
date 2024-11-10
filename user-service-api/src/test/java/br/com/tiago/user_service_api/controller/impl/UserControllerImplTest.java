@@ -49,14 +49,14 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.email").value(entity.getEmail()))
                 .andExpect(jsonPath("$.password").value(entity.getPassword()))
                 .andExpect(jsonPath("$.profiles").isArray());
-            repository.deleteById(userId);
+        repository.deleteById(userId);
     }
 
     @Test
     void testFindByIdWithNotFoundException() throws Exception {
         mockMvc.perform(get("/api/users/{id}", "123"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value( "Object not found Id: 123 Type: UserResponse"))
+                .andExpect(jsonPath("$.message").value("Object not found Id: 123 Type: UserResponse"))
                 .andExpect(jsonPath("$.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
                 .andExpect(jsonPath("$.path").value("/api/users/123"))
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
@@ -65,8 +65,8 @@ class UserControllerImplTest {
 
     @Test
     void testFindAllWithSuccess() throws Exception {
-        final var entity1= CreatorUtils.generateMock(User.class);
-        final var entity2= CreatorUtils.generateMock(User.class);
+        final var entity1 = CreatorUtils.generateMock(User.class);
+        final var entity2 = CreatorUtils.generateMock(User.class);
 
         repository.saveAll(List.of(entity1, entity2));
 
@@ -82,15 +82,15 @@ class UserControllerImplTest {
     }
 
     @Test
-    void testSaveUserWithSuccess() throws Exception{
+    void testSaveUserWithSuccess() throws Exception {
         final var emailValid = "emailvalido123@gmail.com";
         final var request = CreatorUtils.generateMock(CreateUserRequest.class).withEmail(emailValid);
 
-            mockMvc.perform(
-                    post("/api/users")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(toJson(request))
-            ).andExpect(status().isCreated());
+        mockMvc.perform(
+                post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(request))
+        ).andExpect(status().isCreated());
 
         repository.deleteByEmail(emailValid);
 
@@ -98,7 +98,7 @@ class UserControllerImplTest {
 
 
     @Test
-    void testSaveUserWithConflict() throws Exception{
+    void testSaveUserWithConflict() throws Exception {
         final var emailValid = "emailvalido123@gmail.com";
         final var entity = CreatorUtils.generateMock(User.class);
         entity.setEmail(emailValid);
@@ -108,26 +108,26 @@ class UserControllerImplTest {
         final var request = CreatorUtils.generateMock(CreateUserRequest.class).withEmail(emailValid);
 
         mockMvc.perform(
-                 post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(request))
-        ).andExpect(status().isConflict())
+                        post("/api/users")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(toJson(request))
+                ).andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Email [" + emailValid + "] already exists"))
                 .andExpect(jsonPath("$.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
                 .andExpect(jsonPath("$.path").value("/api/users"))
                 .andExpect(jsonPath("$.status").value(HttpStatus.CONFLICT.value()))
                 .andExpect(jsonPath("$.timeStamp").isNotEmpty());
 
-                repository.deleteById(entity.getId());
+        repository.deleteById(entity.getId());
     }
 
 
     private String toJson(final Object obj) throws Exception {
-       try {
-           return objectMapper.writeValueAsString(obj);
-       }catch (final Exception e){
-           throw new Exception("Error to convert object to json", e);
-       }
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (final Exception e) {
+            throw new Exception("Error to convert object to json", e);
+        }
     }
 
     @Test
@@ -147,9 +147,8 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.error").value("Validation Exception"))
                 .andExpect(jsonPath("$.path").value("/api/users"))
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.timeStamp").isNotEmpty());
-                //.andExpect(jsonPath("$.errors[?(@.fieldName == 'name' && @.message == 'Name must contain between 3 and 50 characters')]").exists())
-               // .andExpect(jsonPath("$.errors[?(@.fieldName == 'name' && @.message == 'Name cannot be empty')]").exists());
+                .andExpect(jsonPath("$.timeStamp").isNotEmpty())
+                .andExpect(jsonPath("$.errors[?(@.fieldName=='name' && @.message=='Name must contain between 3 and 50 characters')]").exists())
+                .andExpect(jsonPath("$.errors[?(@.fieldName=='name' && @.message=='Name cannot be empty ')]").exists());
     }
-
 }

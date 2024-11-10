@@ -39,10 +39,10 @@ public class ControllerExceptionHandler {
 
 /*Tratamento personalizado para save user*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<ValidationException> handleMethodArgumentNotValidException(
+    ResponseEntity<StandardError> handleMethodArgumentNotValidException(
             final MethodArgumentNotValidException ex, final HttpServletRequest request)
     {
-            var error1 = ValidationException.builder()
+            var errors = ValidationException.builder()
                     .timeStamp(now())
                     .status(BAD_REQUEST.value())
                     .error("Validation Exception")
@@ -50,11 +50,11 @@ public class ControllerExceptionHandler {
                     .path(request.getRequestURI())
                     .errors(new ArrayList<>())
                     .build();
-            /*for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
-                error1
+            for(FieldError fieldError : ex.getBindingResult().getFieldErrors()){
+                errors.addError(fieldError.getField(), fieldError.getDefaultMessage());
 
-            }*/
-            return ResponseEntity.badRequest().body(error1);
+            }
+            return ResponseEntity.badRequest().body(errors);
     }
 
 /*Tratamento personalizado para validação de email*/
