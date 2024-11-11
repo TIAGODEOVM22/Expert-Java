@@ -1,34 +1,40 @@
 package models.exceptions;
 
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
+import java.io.Serial;
 import java.util.List;
-@SuperBuilder
 
-public class ValidationException extends StandardError {
+@SuperBuilder
+public class ValidationError extends StandardError {
+
+    public ValidationError(long l, int value, String validationError, String erroNaValidaçãoDosCampos, String requestURI) {
+    }
+
+    @Override
+    public List<FieldMessage> getErrors() {
+        return List.of();
+    }
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private List<FieldMessage> errors = new ArrayList<>();
+    @Getter
+    private List<FieldError> errors;
 
-    public ValidationException(List<FieldMessage> errors) {
-        super();
-        this.errors = errors;
+
+    public void addError(final String fieldName, final String message) {
+        this.errors.add(new FieldError(fieldName, message));
     }
 
-    public ValidationException(Long timestamp, Integer status, String error, String message, String path) {
-        super(timestamp, status, error, message, path);
+    @Getter
+    private static class FieldError {
+        private String fieldName;
+        private String message;
+
+        public FieldError(String fieldName, String message) {
+        }
     }
 
-    public ValidationException() {
-        super();
-    }
-
-    public List<FieldMessage> getErrors() {
-        return errors;
-    }
-
-    public void addError(String fieldName, String message) {
-        this.errors.add(new FieldMessage(fieldName, message));
-    }
 }
