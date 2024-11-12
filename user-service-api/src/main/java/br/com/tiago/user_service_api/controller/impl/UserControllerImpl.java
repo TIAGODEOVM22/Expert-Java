@@ -3,6 +3,7 @@ package br.com.tiago.user_service_api.controller.impl;
 
 import br.com.tiago.user_service_api.controller.UserController;
 import br.com.tiago.user_service_api.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import models.requests.CreateUserRequest;
 import models.requests.UpdateUserRequest;
@@ -18,7 +19,6 @@ import java.util.List;
 public class UserControllerImpl implements UserController {
 
     private final UserService userService;
-
 
     @Override
     public ResponseEntity<UserResponse> findById(final String id) {

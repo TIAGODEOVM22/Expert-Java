@@ -96,7 +96,6 @@ class UserControllerImplTest {
 
     }
 
-
     @Test
     void testSaveUserWithConflict() throws Exception {
         final var emailValid = "emailvalido123@gmail.com";
@@ -149,6 +148,6 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.timeStamp").isNotEmpty())
                 .andExpect(jsonPath("$.errors[?(@.fieldName=='name' && @.message=='Name must contain between 3 and 50 characters')]").exists())
-                .andExpect(jsonPath("$.errors[?(@.fieldName=='name' && @.message=='Name cannot be empty ')]").exists());
+                .andExpect(jsonPath("$.errors[?(@.fieldName=='name' && @.message=='Name cannot be empty')]").exists());
     }
 }

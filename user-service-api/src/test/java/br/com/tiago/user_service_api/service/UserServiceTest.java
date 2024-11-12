@@ -63,7 +63,7 @@ class UserServiceTest {
             service.findById("1");
         }catch (Exception e) {
             assertEquals(ResourceNotFoundException.class, e.getClass());
-            assertEquals("Object not found Id:1 Type: UserResponse", e.getMessage());
+            assertEquals("Object not found Id: 1 Type: UserResponse", e.getMessage());
         }
         Mockito.verify(repository).findById(anyString());
         Mockito.verify(mapper, times(0)).fromEntity(any(User.class));

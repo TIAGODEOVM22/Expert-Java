@@ -1,40 +1,39 @@
 package models.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @SuperBuilder
-public class ValidationError extends StandardError {
-
-    public ValidationError(long l, int value, String validationError, String erroNaValidaçãoDosCampos, String requestURI) {
-    }
-
-    @Override
-    public List<FieldMessage> getErrors() {
-        return List.of();
-    }
-
+public class ValidationException extends StandardError implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Getter
-    private List<FieldError> errors;
+    @JsonProperty
+    private List<FieldError> errors = new ArrayList<>();
 
-
-    public void addError(final String fieldName, final String message) {
-        this.errors.add(new FieldError(fieldName, message));
+    public void addError(String fieldName, String message) {
+        errors.add(new FieldError(fieldName, message));
     }
 
+
     @Getter
-    private static class FieldError {
+    static class FieldError {
         private String fieldName;
         private String message;
 
+        public FieldError() {
+        }
         public FieldError(String fieldName, String message) {
+            this.fieldName = fieldName;
+            this.message = message;
         }
     }
-
 }

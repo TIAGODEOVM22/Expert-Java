@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import models.exceptions.ResourceNotFoundException;
 import models.exceptions.StandardError;
 import models.exceptions.ValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -23,11 +22,11 @@ public class ControllerExceptionHandler {
 
     /*Tratamento personalizado para Recurso não encontrado*/
     @ExceptionHandler(ResourceNotFoundException.class)
-    ResponseEntity<models.exceptions.StandardError> handleNotFoundException(
+    ResponseEntity<StandardError> handleNotFoundException(
             final ResourceNotFoundException ex, final HttpServletRequest request)
     {
         return ResponseEntity.status(NOT_FOUND).body(
-                StandardError.builder()
+                ValidationException.builder()
                         .timeStamp(now())
                         .status(NOT_FOUND.value())
                         .error(NOT_FOUND.getReasonPhrase())
@@ -59,11 +58,11 @@ public class ControllerExceptionHandler {
 
 /*Tratamento personalizado para validação de email*/
     @ExceptionHandler(DataIntegrityViolationException.class)
-    ResponseEntity<StandardError> handleDataIntegrityViolationException(
+    ResponseEntity<ValidationException> handleDataIntegrityViolationException(
             final DataIntegrityViolationException ex, final HttpServletRequest request)
     {
         return ResponseEntity.status(CONFLICT).body(
-                models.exceptions.StandardError.builder()
+              ValidationException.builder()
                         .timeStamp(now())
                         .status(CONFLICT.value())
                         .error(CONFLICT.getReasonPhrase())

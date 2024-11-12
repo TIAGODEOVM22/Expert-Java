@@ -12,7 +12,7 @@ import java.util.Set;
 public record CreateUserRequest(
 
         @Schema(description = "User Name", example = "Tiago Oliveira")
-        @NotBlank(message = "Name cannot be empty ")
+        @NotBlank(message = "Name cannot be empty")
         @Size(min = 3, max = 50, message = "Name must contain between 3 and 50 characters")
         String name,
 
