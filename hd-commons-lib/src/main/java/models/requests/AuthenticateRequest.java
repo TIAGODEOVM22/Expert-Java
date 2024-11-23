@@ -1,0 +1,26 @@
+package models.requests;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import java.io.Serializable;
+
+public record AuthenticateRequest(
+
+        @Schema(description = "User Email", example = "tiago@gmail.com")
+        @Email(message = "Invalid Email")
+        @NotBlank(message = "Email cannot be empty")
+        @Size(min = 6, max = 50, message = "Email must contain between 3 and 50 characters")
+        String email,
+
+
+        @Schema(description = "User Password", example = "123456")
+        @NotBlank(message = "Password cannot be empty")
+        @Size(min = 6, max = 50)
+        String password
+) implements Serializable{
+
+    private static final long SerialVersionUID = 1L;
+}
