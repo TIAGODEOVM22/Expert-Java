@@ -18,7 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)/*desabilita a proteção CSRF para essas rotas*/
                 .authorizeHttpRequests(http -> http
                         .requestMatchers(
                                 new AntPathRequestMatcher("/swagger-ui/**"),
