@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import models.exceptions.StandardError;
 import models.exceptions.ValidationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,21 +14,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    ResponseEntity<StandardError> handleNotFoundException(
-            final UsernameNotFoundException ex, final HttpServletRequest request)
+    @ExceptionHandler(BadCredentialsException.class)
+    ResponseEntity<StandardError> handleBadCredentialsException(
+            final BadCredentialsException ex, final HttpServletRequest request)
     {
-        return ResponseEntity.status(NOT_FOUND).body(
+        return ResponseEntity.status(UNAUTHORIZED).body(
                 ValidationException.builder()
                         .timeStamp(now())
-                        .status(NOT_FOUND.value())
-                        .error(NOT_FOUND.getReasonPhrase())
+                        .status(UNAUTHORIZED.value())
+                        .error(UNAUTHORIZED.getReasonPhrase())
                         .message(ex.getMessage())
                         .path(request.getRequestURI())
                         .build()

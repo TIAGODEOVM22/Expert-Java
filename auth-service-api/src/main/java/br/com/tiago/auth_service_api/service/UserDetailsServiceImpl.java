@@ -20,15 +20,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         final var entity = userRepository.findByEmail(email)
-                .orElseThrow(( )-> new UsernameNotFoundException("User not found" + email));
-        return UserDetailsDTO
+                .orElseThrow(() -> new UsernameNotFoundException("User not found" + email));
+        return UserDetailsDTO/*posso retonar esse UserDetailsDTO porque ele implementa UserDetails do SpringSecurity*/
                 .builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .userName(entity.getEmail())
                 .password(entity.getPassword())
-                .authorities(entity.getProfiles()
-                        .stream()
-                        .map(x -> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toSet())).build();
+                .authorities(entity.getProfiles().stream().map(
+                        x -> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toSet()))
+                .build();
     }
 }

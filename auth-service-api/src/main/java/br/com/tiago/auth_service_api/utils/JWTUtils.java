@@ -17,12 +17,13 @@ public class JWTUtils {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generationToken(final UserDetailsDTO userDetailsDTO){
+    public String generateToken(final UserDetailsDTO detailsDTO) {
         return Jwts.builder()
-                .claim("id", userDetailsDTO.getId())
-                .claim("name", userDetailsDTO.getName())
-                .claim("authorities", userDetailsDTO.getAuthorities())
-                .setSubject(userDetailsDTO.getUsername()).signWith(SignatureAlgorithm.ES512, secret.getBytes())
+                .claim("id", detailsDTO.getId())
+                .claim("name", detailsDTO.getName())
+                .claim("authorities", detailsDTO.getAuthorities())
+                .setSubject(detailsDTO.getUsername())
+                .signWith(SignatureAlgorithm.HS512, secret.getBytes())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .compact();
     }

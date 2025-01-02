@@ -1,6 +1,10 @@
 Spring:
   application:
     name: 'auth-service-api'
+  data:
+    mongodb:
+      uri: 'mongodb+srv://help-desk-user:davieisaac@clusterhelpdesk.lxyvszq.mongodb.net/dbhelpdesk?retryWrites=true&w=majority&appName=ClusterHelpDesk'
 
-jwt.secrete: 'aa0bdd5f258e4265676cde58bdc4fea9424fc1033f20b3c24a485e2d31f12d9ff9af0abeaa8131ba0a99a967ca99aa876833320b23f92ed05540a3e4d29d9a3e'
-jwt.expiraiom: '120000' /*tempo em milisegundos para o token expirar, pode ser hora dias, semanas...*/
+jwt.secret: 'OZUJjuFapCsjSg7uy5LBuJmx9XEPHC15yiiMATakgnzznHWrloLMZ8wyl4ear2XybEV6n/1ePz7NgM8AP1cR8LnZdQ/VyCyr179ieMU6NrM='
+jwt.expiration: 120000
+jwt.expiration-sec.refresh-token: 3600
