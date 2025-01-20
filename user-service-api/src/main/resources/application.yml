@@ -1,11 +1,11 @@
 spring:
   application:
-    name: 'user-service-api' #nome no meu component
+    name: 'user-service-api'
   data:
     mongodb:
       uri: 'mongodb+srv://help-desk-user:davieisaac@clusterhelpdesk.lxyvszq.mongodb.net/dbhelpdesk?retryWrites=true&w=majority&appName=ClusterHelpDesk'
-      auto-index-creation: true #cria index dos users
-      #porta padrão do mongo 27017
+      auto-index-creation: true
+
 springdoc:
   openapi:
   title: 'User-Service-API'
@@ -13,4 +13,4 @@ springdoc:
   version: '1.0.0'
 
 server:
-  port: ${SERVER_PORT:8080} #se não tiver uma variavel de ambiente definida ele roda na porta 8080
+  port: ${SERVER_PORT:8080}
