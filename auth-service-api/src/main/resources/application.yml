@@ -5,6 +5,12 @@ Spring:
     mongodb:
       uri: 'mongodb+srv://help-desk-user:davieisaac@clusterhelpdesk.lxyvszq.mongodb.net/dbhelpdesk?retryWrites=true&w=majority&appName=ClusterHelpDesk'
 
-jwt.secret: 'OZUJjuFapCsjSg7uy5LBuJmx9XEPHC15yiiMATakgnzznHWrloLMZ8wyl4ear2XybEV6n/1ePz7NgM8AP1cR8LnZdQ/VyCyr179ieMU6NrM='
+jwt.secret: 'AD3UUQJQMk07c24FY4qsdz60f2Tis5WkYEmf3N6VbW4kTj4PhpUU/DdaJX6/RMflVgxVoTdJq5K1tAttNmoK+Du3MCJZtIvdiAYVnokyoww='
 jwt.expiration: 120000
 jwt.expiration-sec.refresh-token: 3600
+
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG: DEBUG

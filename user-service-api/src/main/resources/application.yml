@@ -11,3 +11,6 @@ springdoc:
   title: 'User-Service-API'
   description: 'Java Expert com o professor Valdir Cesar'
   version: '1.0.0'
+
+server:
+  port: ${SERVER_PORT:8080} #se não tiver uma variavel de ambiente definida ele roda na porta 8080
